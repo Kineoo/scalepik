@@ -576,6 +576,19 @@
       .process-inner, .founder-inner { padding: 0 20px; }
     }
 
+    /* ── LANG SWITCHER ── */
+    .lang-sw {
+      display: flex; align-items: center; gap: 2px; margin: 0 8px;
+    }
+    .lang-btn {
+      background: none; border: 1.5px solid transparent;
+      border-radius: 4px; cursor: pointer; padding: 2px 5px;
+      font-size: 17px; line-height: 1;
+      opacity: 0.3; transition: opacity .2s ease;
+    }
+    .lang-btn.active { opacity: 1; border-color: var(--border); }
+    .lang-btn:hover:not(.active) { opacity: 0.65; }
+
     @media (min-width: 769px) and (max-width: 1024px) {
       .hero-headline { font-size: 70px; }
       .cards-grid { grid-template-columns: repeat(3,1fr); }
@@ -593,11 +606,15 @@
     </a>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
-      <li><a href="#realisations">Réalisations</a></li>
+      <li><a href="#realisations" data-i18n="nav-work">Réalisations</a></li>
       <li><a href="#process">Process</a></li>
-      <li><a href="#founder">À Propos</a></li>
+      <li><a href="#founder" data-i18n="nav-about">À Propos</a></li>
     </ul>
-    <a href="#contact" class="nav-cta">CONTACTEZ-NOUS →</a>
+    <div class="lang-sw">
+      <button class="lang-btn" data-lang="fr" aria-label="Français">🇫🇷</button>
+      <button class="lang-btn active" data-lang="en" aria-label="English">🇬🇧</button>
+    </div>
+    <a href="#contact" class="nav-cta" data-i18n="nav-cta">CONTACTEZ-NOUS →</a>
     <button class="hamburger" id="hbg" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -606,13 +623,11 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobMenu" role="dialog" aria-modal="true">
-  <a href="#about"        onclick="closeMenu()">À Propos</a>
   <a href="#services"     onclick="closeMenu()">Services</a>
-  <a href="#realisations" onclick="closeMenu()">Réalisations</a>
-  <a href="#tarifs"       onclick="closeMenu()">Tarifs</a>
-  <a href="#ressources"   onclick="closeMenu()">Ressources</a>
-  <a href="#contact"      onclick="closeMenu()">Contact</a>
-  <a href="#contact" class="btn-dark" onclick="closeMenu()">CONTACTEZ-NOUS →</a>
+  <a href="#realisations" onclick="closeMenu()" data-i18n="nav-work">Réalisations</a>
+  <a href="#process"      onclick="closeMenu()">Process</a>
+  <a href="#founder"      onclick="closeMenu()" data-i18n="nav-about">À Propos</a>
+  <a href="#contact" class="btn-dark" onclick="closeMenu()" data-i18n="nav-cta">CONTACTEZ-NOUS →</a>
 </div>
 
 <!-- HERO -->
@@ -620,19 +635,19 @@
 
   <!-- LEFT -->
   <div class="hero-left fade">
-    <p class="hero-label">Agence de Visuels IA</p>
-    <h1 class="hero-headline">
+    <p class="hero-label" data-i18n="hero-label">AGENCE DE VISUELS IA</p>
+    <h1 class="hero-headline" data-i18n-html="hero-headline">
       VOTRE BRIEF<br>DU LUNDI.<br>
       VOS CAMPAGNES<br>
       <span class="gold">DU MERCREDI.</span>
     </h1>
-    <p class="hero-sub">
+    <p class="hero-sub" data-i18n-html="hero-sub">
       Studio de création visuelle pour les marques mode, beauté et lifestyle.<br>
       Plus vite. Plus de contenu. Moins cher.<br>
       Déclinaisons illimitées.
     </p>
     <div class="hero-cta-row">
-      <a href="#contact" class="btn-dark">CONTACTEZ-NOUS →</a>
+      <a href="#contact" class="btn-dark" data-i18n="nav-cta">CONTACTEZ-NOUS →</a>
     </div>
   </div>
 
@@ -651,14 +666,14 @@
 <!-- LOGOS -->
 <section class="logos-section" id="services">
   <div class="logos-inner">
-    <p class="logos-label">Ils nous font confiance</p>
+    <p class="logos-label" data-i18n="logos-label">Ils nous font confiance</p>
     <div class="logos-row">
       <span class="logo-name">Optical Center</span>
       <span class="logo-name lg">Mojang</span>
       <span class="logo-name lg" style="letter-spacing:.1em;">Minecraft</span>
       <span class="logo-name">Oussama Ammar</span>
       <a href="#contact" class="logos-join" aria-label="Rejoindre nos clients">
-        <div class="logos-join-txt">REJOINDRE<br>NOS CLIENTS</div>
+        <div class="logos-join-txt" data-i18n-html="logos-join">REJOINDRE<br>NOS CLIENTS</div>
         <div class="arrow-circ">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="M2.5 6h7M9.5 6L6.5 3M9.5 6L6.5 9" stroke="#E8C97E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -672,7 +687,7 @@
 <!-- FEATURES -->
 <section class="features-section fade" id="features">
   <div class="features-inner">
-    <h2 class="features-h2">UN MODÈLE<br>DE PRODUCTION<br>D'UN AUTRE<br>NIVEAU.</h2>
+    <h2 class="features-h2" data-i18n-html="features-h2">UN MODÈLE<br>DE PRODUCTION<br>D'UN AUTRE<br>NIVEAU.</h2>
     <div class="stats-row">
 
       <!-- DÉLAI -->
@@ -682,9 +697,9 @@
             <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
           </svg>
         </div>
-        <div class="stat-lbl">Délai</div>
+        <div class="stat-lbl" data-i18n="stat-lbl-1">Délai</div>
         <div class="stat-val">72H</div>
-        <p class="stat-desc">Du brief au visuel livré. Un studio prend <strong>2 à 3 semaines.</strong></p>
+        <p class="stat-desc" data-i18n-html="stat-desc-1">Du brief au visuel livré. Un studio prend <strong>2 à 3 semaines.</strong></p>
       </div>
 
       <!-- DÉCLINAISONS -->
@@ -695,14 +710,14 @@
             <path d="M12 12c2 2.5 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.5-6 4z"/>
           </svg>
         </div>
-        <div class="stat-lbl">Déclinaisons</div>
+        <div class="stat-lbl" data-i18n="stat-lbl-2">Déclinaisons</div>
         <div class="stat-val">
           <svg width="60" height="48" viewBox="0 0 60 32" fill="none" stroke="#0F0F0F" stroke-width="3" stroke-linecap="round" aria-hidden="true">
             <path d="M30 16c-4-6-9-10-14-10a10 10 0 0 0 0 20c5 0 10-4 14-10z"/>
             <path d="M30 16c4 6 9 10 14 10a10 10 0 0 0 0-20c-5 0-10 4-14 10z"/>
           </svg>
         </div>
-        <p class="stat-desc">Illimitées. Tous formats, tous canaux, à la demande.</p>
+        <p class="stat-desc" data-i18n="stat-desc-2">Illimitées. Tous formats, tous canaux, à la demande.</p>
       </div>
 
       <!-- VOLUME -->
@@ -714,9 +729,9 @@
             <polyline points="2 12 12 17 22 12"/>
           </svg>
         </div>
-        <div class="stat-lbl">Volume</div>
+        <div class="stat-lbl" data-i18n="stat-lbl-3">Volume</div>
         <div class="stat-val">10×</div>
-        <p class="stat-desc">Plus de contenu produit qu'un <strong>shooting classique au même budget.</strong></p>
+        <p class="stat-desc" data-i18n-html="stat-desc-3">Plus de contenu produit qu'un <strong>shooting classique au même budget.</strong></p>
       </div>
 
       <!-- COÛT -->
@@ -727,9 +742,9 @@
             <line x1="7" y1="7" x2="7.01" y2="7"/>
           </svg>
         </div>
-        <div class="stat-lbl">Coût</div>
+        <div class="stat-lbl" data-i18n="stat-lbl-4">Coût</div>
         <div class="stat-val">-60%</div>
-        <p class="stat-desc">Versus un studio traditionnel sur volume équivalent.</p>
+        <p class="stat-desc" data-i18n="stat-desc-4">Versus un studio traditionnel sur volume équivalent.</p>
       </div>
 
     </div>
@@ -740,7 +755,7 @@
 <section class="real-section" id="realisations">
   <div class="real-inner">
     <div class="real-header fade">
-      <h2>RÉALISATIONS RÉCENTES</h2>
+      <h2 data-i18n="real-title">RÉALISATIONS RÉCENTES</h2>
     </div>
     <div class="cards-grid">
 
@@ -750,7 +765,7 @@
         <div class="card-body">
           <div class="card-client">Bodies</div>
           <div class="card-name">CAMPAGNE UGC</div>
-          <div class="card-meta">PHOTOS STUDIO ET UGC</div>
+          <div class="card-meta" data-i18n="card-meta-0">PHOTOS STUDIO ET UGC</div>
         </div>
         <div class="card-arr" aria-hidden="true">
           <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -763,7 +778,7 @@
         <div class="card-body">
           <div class="card-client">Nideco</div>
           <div class="card-name">COLLECTION ÉTÉ</div>
-          <div class="card-meta">FORMATS RÉSEAUX SOCIAUX</div>
+          <div class="card-meta" data-i18n="card-meta-1">FORMATS RÉSEAUX SOCIAUX</div>
         </div>
         <div class="card-arr" aria-hidden="true">
           <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -776,7 +791,7 @@
         <div class="card-body">
           <div class="card-client">RAWS</div>
           <div class="card-name">COLLECTION SPORT</div>
-          <div class="card-meta">VÊTEMENT DE RUNNING</div>
+          <div class="card-meta" data-i18n="card-meta-2">VÊTEMENT DE RUNNING</div>
         </div>
         <div class="card-arr" aria-hidden="true">
           <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -789,7 +804,7 @@
         <div class="card-body">
           <div class="card-client">Optical Center</div>
           <div class="card-name">COLLABORATION MOJANG</div>
-          <div class="card-meta">LUNETTES MINECRAFT</div>
+          <div class="card-meta" data-i18n="card-meta-3">LUNETTES MINECRAFT</div>
         </div>
         <div class="card-arr" aria-hidden="true">
           <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -802,7 +817,7 @@
         <div class="card-body">
           <div class="card-client">Oussama Ammar</div>
           <div class="card-name">VIDÉO VSL</div>
-          <div class="card-meta">STORYTELLING DESSIN ANIMÉ</div>
+          <div class="card-meta" data-i18n="card-meta-4">STORYTELLING DESSIN ANIMÉ</div>
         </div>
         <div class="card-arr" aria-hidden="true">
           <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -816,7 +831,7 @@
 <!-- PROCESS -->
 <section class="process-section fade" id="process">
   <div class="process-inner">
-    <h2 class="process-h2">NOTRE PROCESS.<br>SIMPLE ET RAPIDE.</h2>
+    <h2 class="process-h2" data-i18n-html="process-h2">NOTRE PROCESS.<br>SIMPLE ET RAPIDE.</h2>
     <div class="steps">
 
       <div class="step">
@@ -824,8 +839,8 @@
           <div class="step-num">01</div>
           <span class="step-arr" aria-hidden="true">→</span>
         </div>
-        <div class="step-title">Brief</div>
-        <p class="step-desc">On comprend vos objectifs, vos références et vos contraintes.</p>
+        <div class="step-title" data-i18n="step-title-1">Brief</div>
+        <p class="step-desc" data-i18n="step-desc-1">On comprend vos objectifs, vos références et vos contraintes.</p>
       </div>
 
       <div class="step">
@@ -833,8 +848,8 @@
           <div class="step-num">02</div>
           <span class="step-arr" aria-hidden="true">→</span>
         </div>
-        <div class="step-title">Création</div>
-        <p class="step-desc">Nos directeurs artistiques proposent plusieurs directions visuelles adaptées à votre univers de marque.</p>
+        <div class="step-title" data-i18n="step-title-2">Création</div>
+        <p class="step-desc" data-i18n="step-desc-2">Nos directeurs artistiques proposent plusieurs directions visuelles adaptées à votre univers de marque.</p>
       </div>
 
       <div class="step">
@@ -842,16 +857,16 @@
           <div class="step-num">03</div>
           <span class="step-arr" aria-hidden="true">→</span>
         </div>
-        <div class="step-title">Sélection</div>
-        <p class="step-desc">Vous choisissez. On affine et prépare tous les formats.</p>
+        <div class="step-title" data-i18n="step-title-3">Sélection</div>
+        <p class="step-desc" data-i18n="step-desc-3">Vous choisissez. On affine et prépare tous les formats.</p>
       </div>
 
       <div class="step">
         <div class="step-num-row">
           <div class="step-num">04</div>
         </div>
-        <div class="step-title">Livraison</div>
-        <p class="step-desc">Vos visuels sont livrés. Prêts à publier, partout, immédiatement.</p>
+        <div class="step-title" data-i18n="step-title-4">Livraison</div>
+        <p class="step-desc" data-i18n="step-desc-4">Vos visuels sont livrés. Prêts à publier, partout, immédiatement.</p>
       </div>
 
     </div>
@@ -868,17 +883,17 @@
     </div>
     <div>
       <div class="founder-name">Allan</div>
-      <div class="founder-role">Fondateur — Scalepik</div>
-      <p class="founder-bio">
-        Après une formation en cinéma et plusieurs années à produire du contenu vidéo et motion design pour des marques sur les réseaux sociaux, j'ai vu le même problème revenir sans cesse&nbsp;: trop de délais, trop de budget, pas assez de contenu.
+      <div class="founder-role" data-i18n="founder-role">Fondateur — Scalepik</div>
+      <p class="founder-bio" data-i18n="founder-bio-1">
+        Après une formation en cinéma et plusieurs années à produire du contenu vidéo et motion design pour des marques sur les réseaux sociaux, j'ai vu le même problème revenir sans cesse : trop de délais, trop de budget, pas assez de contenu.
       </p>
-      <p class="founder-bio">
-        Quand j'ai découvert ce que les nouveaux outils de création visuelle permettaient de faire, j'ai su que c'était la solution. J'ai fondé Scalepik pour donner aux marques ce qu'elles n'avaient jamais eu&nbsp;: un volume de contenu illimité, livré vite, sans sacrifier la direction artistique.
+      <p class="founder-bio" data-i18n="founder-bio-2">
+        Quand j'ai découvert ce que les nouveaux outils de création visuelle permettaient de faire, j'ai su que c'était la solution. J'ai fondé Scalepik pour donner aux marques ce qu'elles n'avaient jamais eu : un volume de contenu illimité, livré vite, sans sacrifier la direction artistique.
       </p>
       <div class="founder-tags">
-        <span class="founder-tag">Cinéma &amp; motion design</span>
-        <span class="founder-tag">Direction artistique</span>
-        <span class="founder-tag">Fondateur à 24 ans</span>
+        <span class="founder-tag" data-i18n="founder-tag-1">Cinéma & motion design</span>
+        <span class="founder-tag" data-i18n="founder-tag-2">Direction artistique</span>
+        <span class="founder-tag" data-i18n="founder-tag-3">Fondateur à 24 ans</span>
       </div>
     </div>
   </div>
@@ -886,9 +901,9 @@
 
 <!-- CTA -->
 <section class="cta-section" id="contact">
-  <h2 class="cta-h2">PARLONS DE VOTRE PROJET.</h2>
-  <p class="cta-sub">Décrivez-nous votre besoin et recevez une proposition sous 24h.</p>
-  <a href="https://calendly.com/duzantallan/30min" target="_blank" rel="noopener noreferrer" class="btn-gold">CONTACTEZ-NOUS →</a>
+  <h2 class="cta-h2" data-i18n="cta-h2">PARLONS DE VOTRE PROJET.</h2>
+  <p class="cta-sub" data-i18n="cta-sub">Décrivez-nous votre besoin et recevez une proposition sous 24h.</p>
+  <a href="https://calendly.com/duzantallan/30min" target="_blank" rel="noopener noreferrer" class="btn-gold" data-i18n="nav-cta">CONTACTEZ-NOUS →</a>
   <a href="mailto:duzantallan@gmail.com" class="cta-email">duzantallan@gmail.com</a>
 </section>
 
@@ -900,9 +915,9 @@
     </a>
     <nav aria-label="Footer navigation">
       <ul class="footer-nav">
-        <li><a href="#founder">À Propos</a></li>
+        <li><a href="#founder" data-i18n="nav-about">À Propos</a></li>
         <li><a href="#services">Services</a></li>
-        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#realisations" data-i18n="nav-work">Réalisations</a></li>
         <li><a href="#process">Process</a></li>
       </ul>
     </nav>
@@ -1059,6 +1074,118 @@
   modalClose.addEventListener('click', closeModal);
   modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ── I18N ──
+  const T = {
+    fr: {
+      'nav-work':       'Réalisations',
+      'nav-about':      'À Propos',
+      'nav-cta':        'CONTACTEZ-NOUS →',
+      'hero-label':     'AGENCE DE VISUELS IA',
+      'hero-headline':  'VOTRE BRIEF<br>DU LUNDI.<br>VOS CAMPAGNES<br><span class="gold">DU MERCREDI.</span>',
+      'hero-sub':       'Studio de création visuelle pour les marques mode, beauté et lifestyle.<br>Plus vite. Plus de contenu. Moins cher.<br>Déclinaisons illimitées.',
+      'logos-label':    'Ils nous font confiance',
+      'logos-join':     'REJOINDRE<br>NOS CLIENTS',
+      'features-h2':    'UN MODÈLE<br>DE PRODUCTION<br>D\'UN AUTRE<br>NIVEAU.',
+      'stat-lbl-1':     'Délai',
+      'stat-desc-1':    'Du brief au visuel livré. Un studio prend <strong>2 à 3 semaines.</strong>',
+      'stat-lbl-2':     'Déclinaisons',
+      'stat-desc-2':    'Illimitées. Tous formats, tous canaux, à la demande.',
+      'stat-lbl-3':     'Volume',
+      'stat-desc-3':    'Plus de contenu produit qu\'un <strong>shooting classique au même budget.</strong>',
+      'stat-lbl-4':     'Coût',
+      'stat-desc-4':    'Versus un studio traditionnel sur volume équivalent.',
+      'real-title':     'RÉALISATIONS RÉCENTES',
+      'card-meta-0':    'PHOTOS STUDIO ET UGC',
+      'card-meta-1':    'FORMATS RÉSEAUX SOCIAUX',
+      'card-meta-2':    'VÊTEMENT DE RUNNING',
+      'card-meta-3':    'LUNETTES MINECRAFT',
+      'card-meta-4':    'STORYTELLING DESSIN ANIMÉ',
+      'process-h2':     'NOTRE PROCESS.<br>SIMPLE ET RAPIDE.',
+      'step-title-1':   'Brief',
+      'step-desc-1':    'On comprend vos objectifs, vos références et vos contraintes.',
+      'step-title-2':   'Création',
+      'step-desc-2':    'Nos directeurs artistiques proposent plusieurs directions visuelles adaptées à votre univers de marque.',
+      'step-title-3':   'Sélection',
+      'step-desc-3':    'Vous choisissez. On affine et prépare tous les formats.',
+      'step-title-4':   'Livraison',
+      'step-desc-4':    'Vos visuels sont livrés. Prêts à publier, partout, immédiatement.',
+      'founder-role':   'Fondateur — Scalepik',
+      'founder-bio-1':  "Après une formation en cinéma et plusieurs années à produire du contenu vidéo et motion design pour des marques sur les réseaux sociaux, j'ai vu le même problème revenir sans cesse : trop de délais, trop de budget, pas assez de contenu.",
+      'founder-bio-2':  "Quand j'ai découvert ce que les nouveaux outils de création visuelle permettaient de faire, j'ai su que c'était la solution. J'ai fondé Scalepik pour donner aux marques ce qu'elles n'avaient jamais eu : un volume de contenu illimité, livré vite, sans sacrifier la direction artistique.",
+      'founder-tag-1':  'Cinéma & motion design',
+      'founder-tag-2':  'Direction artistique',
+      'founder-tag-3':  'Fondateur à 24 ans',
+      'cta-h2':         'PARLONS DE VOTRE PROJET.',
+      'cta-sub':        'Décrivez-nous votre besoin et recevez une proposition sous 24h.',
+    },
+    en: {
+      'nav-work':       'Work',
+      'nav-about':      'About',
+      'nav-cta':        'CONTACT US →',
+      'hero-label':     'AI VISUAL AGENCY',
+      'hero-headline':  'MONDAY BRIEF.<br>WEDNESDAY <span class="gold">CAMPAIGNS.</span>',
+      'hero-sub':       'Visual creation studio for fashion, beauty and lifestyle brands.<br>Faster. More content. Less expensive.<br>Unlimited variations.',
+      'logos-label':    'They trust us',
+      'logos-join':     'JOIN OUR<br>CLIENTS',
+      'features-h2':    'A PRODUCTION MODEL<br>ON ANOTHER LEVEL.',
+      'stat-lbl-1':     'Turnaround',
+      'stat-desc-1':    'From brief to delivered visual. A traditional studio takes <strong>2 to 3 weeks.</strong>',
+      'stat-lbl-2':     'Variations',
+      'stat-desc-2':    'Unlimited. All formats, all channels, on demand.',
+      'stat-lbl-3':     'Volume',
+      'stat-desc-3':    'More content produced than <strong>a traditional shoot at the same budget.</strong>',
+      'stat-lbl-4':     'Cost',
+      'stat-desc-4':    'Versus a traditional studio at equivalent volume.',
+      'real-title':     'RECENT WORK',
+      'card-meta-0':    'STUDIO & UGC PHOTOS',
+      'card-meta-1':    'SOCIAL MEDIA FORMATS',
+      'card-meta-2':    'RUNNING APPAREL',
+      'card-meta-3':    'MINECRAFT GLASSES',
+      'card-meta-4':    'ANIMATED STORYTELLING',
+      'process-h2':     'OUR PROCESS.<br>SIMPLE AND FAST.',
+      'step-title-1':   'Brief',
+      'step-desc-1':    'We understand your goals, references and constraints.',
+      'step-title-2':   'Creation',
+      'step-desc-2':    'Our art directors propose several visual directions tailored to your brand universe.',
+      'step-title-3':   'Selection',
+      'step-desc-3':    'You choose. We refine and prepare all formats.',
+      'step-title-4':   'Delivery',
+      'step-desc-4':    'Your visuals are delivered. Ready to publish, everywhere, immediately.',
+      'founder-role':   'Founder — Scalepik',
+      'founder-bio-1':  'After studying cinema and spending several years producing video and motion design content for brands on social media, I kept seeing the same problem: too many delays, too much budget, not enough content.',
+      'founder-bio-2':  'When I discovered what the new visual creation tools could do, I knew it was the solution. I founded Scalepik to give brands what they never had: unlimited content volume, delivered fast, without sacrificing art direction.',
+      'founder-tag-1':  'Cinema & motion design',
+      'founder-tag-2':  'Art direction',
+      'founder-tag-3':  'Founder at 24',
+      'cta-h2':         "LET'S TALK ABOUT YOUR PROJECT.",
+      'cta-sub':        'Tell us about your needs and receive a proposal within 24h.',
+    }
+  };
+
+  function applyLang(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (T[lang][key] !== undefined) el.innerHTML = T[lang][key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    document.documentElement.lang = lang;
+    localStorage.setItem('lang', lang);
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  // Init saved lang
+  const savedLang = localStorage.getItem('lang') || 'en';
+  applyLang(savedLang);
 </script>
 </body>
 </html>
