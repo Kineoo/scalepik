@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scalepik — Studio de création visuelle IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5F0E8;
+      --dark: #0F0F0F;
+      --text2: #666666;
+      --gold: #E8C97E;
+      --white: #FFFFFF;
+      --border: #e0dbd0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── RESET ── */
+    ul { list-style: none; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 0.02em; color: var(--dark);
+    }
+    .nav-logo .plus { color: var(--gold); }
+    .nav-links {
+      display: flex; gap: 28px; align-items: center;
+    }
+    .nav-links a {
+      font-weight: 500; font-size: 13px;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--dark);
+      transition: color .2s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--dark); color: var(--white);
+      font-weight: 500; font-size: 12px;
+      padding: 10px 20px; border-radius: 4px;
+      transition: background .2s ease, transform .2s ease;
+      white-space: nowrap; cursor: pointer;
+    }
+    .nav-cta:hover { background: #2a2a2a; transform: scale(1.02); }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--dark); transition: .2s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed;
+      top: 64px; left: 0; right: 0; bottom: 0;
+      background: var(--cream); z-index: 190;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 28px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-weight: 500; font-size: 18px;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--dark);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--cream);
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 64px);
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 60px 56px 60px max(40px, calc((100vw - 1200px) / 2 + 40px));
+    }
+    .hero-label {
+      font-weight: 500; font-size: 11px;
+      letter-spacing: 0.1em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .hero-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 7vw, 92px); line-height: 0.95; color: var(--dark);
+    }
+    .hero-headline .gold { color: var(--gold); }
+    .hero-sub {
+      font-size: 14px; color: #333; margin-top: 24px;
+      line-height: 1.7; max-width: 380px;
+    }
+    .hero-cta-row {
+      display: flex; align-items: center; gap: 16px; margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .btn-dark {
+      background: var(--dark); color: var(--white);
+      font-weight: 500; font-size: 13px;
+      padding: 14px 28px; border-radius: 4px; border: none;
+      transition: background .2s ease, transform .2s ease; cursor: pointer;
+    }
+    .btn-dark:hover { background: #2a2a2a; transform: scale(1.02); }
+    .btn-demo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: #333; cursor: pointer;
+      transition: color .2s ease;
+    }
+    .btn-demo:hover { color: var(--gold); }
+    .play-circle {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid #333;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: border-color .2s ease;
+    }
+    .btn-demo:hover .play-circle { border-color: var(--gold); }
+
+    /* ── HERO RIGHT (photo + overlays) ── */
+    .hero-right {
+      position: relative; overflow: hidden;
+      background: var(--cream);
+    }
+    .hero-right img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+    /* dashed format frames */
+    .fmt {
+      position: absolute; pointer-events: none;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .fmt-lbl {
+      font-weight: 700; font-size: 11px; letter-spacing: 0.08em;
+      color: #ddd; line-height: 1.1; text-align: center;
+      text-shadow: 0 1px 4px rgba(0,0,0,.6);
+    }
+    .fmt-lbl small {
+      display: block; font-weight: 400; font-size: 10px;
+      letter-spacing: 0.12em; opacity: .85;
+    }
+    .fmt-box {
+      border: 1.2px dashed rgba(255,255,255,.75);
+    }
+    /* 9:16 story — top center */
+    .fmt-916 {
+      top: 22px; left: 50%; transform: translateX(-50%);
+    }
+    .fmt-916 .fmt-lbl { margin-bottom: 5px; }
+    .fmt-916 .fmt-box { width: 52px; height: 93px; }
+    /* 1:1 square — right-center */
+    .fmt-11 {
+      right: 18px; top: 50%; transform: translateY(-50%);
+      align-items: flex-end;
+    }
+    .fmt-11 .fmt-lbl { margin-bottom: 5px; text-align: right; }
+    .fmt-11 .fmt-box { width: 76px; height: 76px; }
+    /* 16:9 landscape — bottom right */
+    .fmt-169 {
+      bottom: 32px; right: 18px;
+      align-items: flex-end;
+    }
+    .fmt-169 .fmt-lbl { margin-bottom: 5px; text-align: right; }
+    .fmt-169 .fmt-box { width: 112px; height: 63px; }
+
+    /* ── LOGOS ── */
+    .logos-section {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0;
+    }
+    .logos-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+    }
+    .logos-label {
+      font-weight: 500; font-size: 11px;
+      letter-spacing: 0.1em; color: #999;
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .logos-row {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 24px;
+    }
+    .logo-name {
+      font-weight: 700; font-size: 15px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--dark);
+    }
+    .logo-name.lg { font-size: 19px; font-weight: 900; letter-spacing: 0.06em; }
+    .logos-join {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+    }
+    .logos-join-txt {
+      font-weight: 500; font-size: 11px; letter-spacing: 0.08em;
+      color: var(--gold); text-transform: uppercase;
+      line-height: 1.3; text-align: right;
+    }
+    .arrow-circ {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1.5px solid var(--gold); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s ease;
+    }
+    .logos-join:hover .arrow-circ { background: var(--gold); }
+    .logos-join:hover .arrow-circ svg { stroke: var(--dark); }
+
+    /* ── FEATURES ── */
+    .features-section {
+      background: var(--cream);
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .features-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 30% 1fr;
+      align-items: center; gap: 60px;
+    }
+    .features-h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px; line-height: 1; color: var(--dark);
+    }
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4,1fr);
+    }
+    .stat {
+      padding: 0 28px;
+      border-right: 1px solid var(--border);
+    }
+    .stat:first-child { border-left: 1px solid var(--border); }
+    .stat-ico { color: var(--gold); margin-bottom: 12px; }
+    .stat-lbl {
+      font-weight: 500; font-size: 11px; letter-spacing: 0.08em;
+      color: var(--gold); text-transform: uppercase; margin-bottom: 6px;
+    }
+    .stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px; line-height: 1; color: var(--dark); margin-bottom: 10px;
+    }
+    .stat-desc {
+      font-size: 12px; color: #555; line-height: 1.55;
+    }
+    .stat-desc strong { font-weight: 600; color: var(--dark); }
+
+    /* ── RÉALISATIONS ── */
+    .real-section {
+      background: var(--cream);
+      padding: 64px 0;
+    }
+    .real-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+    }
+    .real-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 20px;
+    }
+    .real-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px; letter-spacing: 0.04em;
+    }
+    .real-header a {
+      font-weight: 500; font-size: 12px; color: var(--gold);
+      transition: opacity .2s ease;
+    }
+    .real-header a:hover { opacity: .75; }
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(5,1fr);
+      border-radius: 6px; overflow: hidden;
+    }
+    .card {
+      position: relative; aspect-ratio: 9/16; height: auto;
+      overflow: hidden; cursor: pointer;
+      background: #2a2a2a;
+    }
+    .card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .35s ease;
+    }
+    .card:hover img { transform: scale(1.05); }
+    .card-grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(0,0,0,.75) 0%, rgba(0,0,0,.1) 35%, transparent 100%);
+      transition: background .2s ease;
+    }
+    .card:hover .card-grad {
+      background: linear-gradient(to top,
+        rgba(0,0,0,.8) 0%, rgba(0,0,0,.15) 40%, transparent 100%);
+    }
+    .card-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 10px 32px;
+    }
+    .card-client {
+      font-weight: 500; font-size: 9px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,.65);
+      margin-bottom: 2px;
+    }
+    .card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15px; color: var(--white); line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .card-meta {
+      font-size: 10px; color: rgba(255,255,255,.55); line-height: 1.4;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-arr {
+      position: absolute; bottom: 10px; right: 9px;
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.65);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .card:hover .card-arr { transform: scale(1.1); border-color: #fff; }
+
+    /* ── PROCESS ── */
+    .process-section {
+      background: var(--cream); padding: 80px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .process-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 25% 1fr;
+      gap: 60px; align-items: center;
+    }
+    .process-h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 44px; line-height: 1.05; color: var(--dark);
+    }
+    .steps {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 0;
+    }
+    .step { padding-right: 24px; }
+    .step-num-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 10px;
+    }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px; line-height: 1; color: var(--dark);
+    }
+    .step-arr { font-size: 16px; color: #bbb; margin-left: auto; }
+    .step-title {
+      font-weight: 500; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--dark); margin-bottom: 8px;
+    }
+    .step-desc { font-size: 12px; color: #555; line-height: 1.55; }
+
+    /* ── FOUNDER ── */
+    .founder-section {
+      background: var(--cream); padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+    .founder-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 280px 1fr;
+      gap: 48px; align-items: start;
+    }
+    .founder-avatar {
+      width: 100%;
+      border-radius: 6px; overflow: hidden;
+      background: #2a2a2a;
+    }
+    .founder-avatar img { width: 100%; height: auto; display: block; }
+    .founder-name {
+      font-weight: 500; font-size: 16px; color: var(--dark); margin-bottom: 3px;
+    }
+    .founder-role {
+      font-size: 12px; color: var(--gold); margin-bottom: 12px;
+    }
+    .founder-bio {
+      font-size: 13px; color: #444; line-height: 1.75; margin-bottom: 10px;
+    }
+    .founder-tags {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+    }
+    .founder-tag {
+      font-size: 11px; color: #666;
+      background: #ece7dd; padding: 4px 10px; border-radius: 4px;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: var(--dark); padding: 88px 40px;
+      text-align: center;
+    }
+    .cta-h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(44px, 6vw, 72px); color: var(--white); line-height: 1;
+    }
+    .cta-sub {
+      font-size: 14px; color: #aaa; margin-top: 12px;
+    }
+    .btn-gold {
+      display: inline-block; margin-top: 32px;
+      background: var(--gold); color: var(--dark);
+      font-weight: 500; font-size: 13px;
+      padding: 16px 36px; border-radius: 4px; border: none;
+      transition: background .2s ease, transform .2s ease; cursor: pointer;
+    }
+    .btn-gold:hover { background: #f0d492; transform: scale(1.02); }
+    .cta-email {
+      display: block; margin-top: 16px;
+      font-size: 12px; color: #888;
+      transition: color .2s ease;
+    }
+    .cta-email:hover { color: #aaa; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid #222;
+      padding: 28px 0;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px; color: var(--white);
+    }
+    .footer-logo .plus { color: var(--gold); }
+    footer nav { background: transparent; border: none; position: static; }
+    .footer-nav {
+      display: flex; gap: 24px; flex-wrap: wrap;
+    }
+    .footer-nav a {
+      font-size: 12px; color: rgba(255,255,255,.55);
+      transition: color .2s ease;
+    }
+    .footer-nav a:hover { color: var(--white); }
+    .footer-right {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .footer-email {
+      font-weight: 500; font-size: 11px;
+      letter-spacing: 0.06em; color: #888;
+      transition: color .2s ease;
+    }
+    .footer-email:hover { color: #bbb; }
+    .footer-socials {
+      display: flex; gap: 12px; align-items: center;
+    }
+    .footer-socials a {
+      color: var(--white); transition: opacity .2s ease;
+    }
+    .footer-socials a:hover { opacity: .65; }
+
+    /* ── SCROLL FADE ── */
+    .fade {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .fade.in { opacity: 1; transform: translateY(0); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.82);
+      align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--cream); border-radius: 8px;
+      max-width: 860px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      position: relative; padding: 32px;
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: none; font-size: 24px;
+      cursor: pointer; color: var(--dark); line-height: 1;
+      transition: opacity .2s;
+    }
+    .modal-close:hover { opacity: .5; }
+    .modal-header { margin-bottom: 24px; }
+    .modal-client {
+      font-weight: 500; font-size: 11px; letter-spacing: 0.1em;
+      color: var(--gold); text-transform: uppercase; margin-bottom: 4px;
+    }
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px; line-height: 1; color: var(--dark);
+    }
+    .modal-meta {
+      font-size: 12px; color: #888; margin-top: 4px;
+    }
+    .modal-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .modal-grid img {
+      width: 100%; aspect-ratio: 4/5;
+      object-fit: cover; border-radius: 4px;
+      background: #2a2a2a;
+    }
+    @media (max-width: 600px) {
+      .modal-grid { grid-template-columns: repeat(2, 1fr); }
+      .modal-box { padding: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+
+      .hero {
+        grid-template-columns: 1fr; min-height: auto;
+      }
+      .hero-left {
+        padding: 40px 20px 32px;
+        align-items: center; text-align: center;
+      }
+      .hero-headline { font-size: 56px; }
+      .hero-right { display: none; }
+
+      .features-inner { grid-template-columns: 1fr; gap: 32px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .stat { padding: 20px 16px; }
+      .stat:first-child { border-left: none; }
+      .stat { border: 1px solid var(--border); }
+
+      .cards-grid { grid-template-columns: repeat(2,1fr); }
+
+      .process-inner { grid-template-columns: 1fr; gap: 32px; }
+      .steps { grid-template-columns: 1fr; gap: 0; }
+      .step {
+        padding: 20px 0; padding-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .founder-inner { grid-template-columns: 1fr; }
+      .founder-avatar { margin: 0 auto 0; }
+
+      .logos-row { flex-wrap: wrap; gap: 16px; justify-content: center; }
+
+      .footer-inner { flex-direction: column; text-align: center; padding: 0 20px; }
+      .footer-nav { justify-content: center; }
+      .nav-inner { padding: 0 20px; }
+      .logos-inner, .features-inner, .real-inner,
+      .process-inner, .founder-inner { padding: 0 20px; }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero-headline { font-size: 70px; }
+      .cards-grid { grid-template-columns: repeat(3,1fr); }
+      .hero-left { padding-left: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/logo%20scalepik%20noir.png" alt="Scalepik" style="height:33px; width:auto; display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#realisations">Réalisations</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#founder">À Propos</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">CONTACTEZ-NOUS →</a>
+    <button class="hamburger" id="hbg" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobMenu" role="dialog" aria-modal="true">
+  <a href="#about"        onclick="closeMenu()">À Propos</a>
+  <a href="#services"     onclick="closeMenu()">Services</a>
+  <a href="#realisations" onclick="closeMenu()">Réalisations</a>
+  <a href="#tarifs"       onclick="closeMenu()">Tarifs</a>
+  <a href="#ressources"   onclick="closeMenu()">Ressources</a>
+  <a href="#contact"      onclick="closeMenu()">Contact</a>
+  <a href="#contact" class="btn-dark" onclick="closeMenu()">CONTACTEZ-NOUS →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="about">
+
+  <!-- LEFT -->
+  <div class="hero-left fade">
+    <p class="hero-label">Agence de Visuels IA</p>
+    <h1 class="hero-headline">
+      VOTRE BRIEF<br>DU LUNDI.<br>
+      VOS CAMPAGNES<br>
+      <span class="gold">DU MERCREDI.</span>
+    </h1>
+    <p class="hero-sub">
+      Studio de création visuelle pour les marques mode, beauté et lifestyle.<br>
+      Plus vite. Plus de contenu. Moins cher.<br>
+      Déclinaisons illimitées.
+    </p>
+    <div class="hero-cta-row">
+      <a href="#contact" class="btn-dark">CONTACTEZ-NOUS →</a>
+    </div>
+  </div>
+
+  <!-- RIGHT — photo + format overlays -->
+  <div class="hero-right">
+    <img
+      src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/potfolio_Magnific%20Skin%20Enhancer_2026-05-11_02-36-42.png"
+      alt="Scalepik — modèle mode en veste noire"
+      loading="eager"
+    >
+
+  </div>
+
+</section>
+
+<!-- LOGOS -->
+<section class="logos-section" id="services">
+  <div class="logos-inner">
+    <p class="logos-label">Ils nous font confiance</p>
+    <div class="logos-row">
+      <span class="logo-name">Optical Center</span>
+      <span class="logo-name lg">Mojang</span>
+      <span class="logo-name lg" style="letter-spacing:.1em;">Minecraft</span>
+      <span class="logo-name">Oussama Ammar</span>
+      <a href="#contact" class="logos-join" aria-label="Rejoindre nos clients">
+        <div class="logos-join-txt">REJOINDRE<br>NOS CLIENTS</div>
+        <div class="arrow-circ">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2.5 6h7M9.5 6L6.5 3M9.5 6L6.5 9" stroke="#E8C97E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section fade" id="features">
+  <div class="features-inner">
+    <h2 class="features-h2">UN MODÈLE<br>DE PRODUCTION<br>D'UN AUTRE<br>NIVEAU.</h2>
+    <div class="stats-row">
+
+      <!-- DÉLAI -->
+      <div class="stat">
+        <div class="stat-ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8C97E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="stat-lbl">Délai</div>
+        <div class="stat-val">72H</div>
+        <p class="stat-desc">Du brief au visuel livré. Un studio prend <strong>2 à 3 semaines.</strong></p>
+      </div>
+
+      <!-- DÉCLINAISONS -->
+      <div class="stat">
+        <div class="stat-ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8C97E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18.2 8c5.1 0 5.1 8 0 8C13.1 16 11 8 5.4 8c-4.6 0-4.6 8 0 8 5.6 0 7.7-8 12.8-8z"/>
+          </svg>
+        </div>
+        <div class="stat-lbl">Déclinaisons</div>
+        <div class="stat-val">∞</div>
+        <p class="stat-desc">Illimitées. Tous formats, tous canaux, à la demande.</p>
+      </div>
+
+      <!-- VOLUME -->
+      <div class="stat">
+        <div class="stat-ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8C97E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+        </div>
+        <div class="stat-lbl">Volume</div>
+        <div class="stat-val">10×</div>
+        <p class="stat-desc">Plus de contenu produit qu'un <strong>shooting classique au même budget.</strong></p>
+      </div>
+
+      <!-- COÛT -->
+      <div class="stat">
+        <div class="stat-ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8C97E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+        </div>
+        <div class="stat-lbl">Coût</div>
+        <div class="stat-val">-60%</div>
+        <p class="stat-desc">Versus un studio traditionnel sur volume équivalent.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RÉALISATIONS -->
+<section class="real-section" id="realisations">
+  <div class="real-inner">
+    <div class="real-header fade">
+      <h2>RÉALISATIONS RÉCENTES</h2>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card" data-project="0">
+        <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-59-24.png" alt="Balzac Paris Campagne Été 24" loading="lazy">
+        <div class="card-grad"></div>
+        <div class="card-body">
+          <div class="card-client">Bodies</div>
+          <div class="card-name">CAMPAGNE UGC</div>
+          <div class="card-meta">PHOTOS STUDIO ET UGC</div>
+        </div>
+        <div class="card-arr" aria-hidden="true">
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="card" data-project="1">
+        <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/NIDECO/NIDECO%20_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-03-36.png" alt="Éclat Paris Nouvelle Collection" loading="lazy">
+        <div class="card-grad"></div>
+        <div class="card-body">
+          <div class="card-client">Nideco</div>
+          <div class="card-name">COLLECTION ÉTÉ</div>
+          <div class="card-meta">FORMATS RÉSEAUX SOCIAUX</div>
+        </div>
+        <div class="card-arr" aria-hidden="true">
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="card" data-project="2">
+        <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/RAWS/photos/raws_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-04-59.png" alt="Nüde Sérum N°3" loading="lazy">
+        <div class="card-grad"></div>
+        <div class="card-body">
+          <div class="card-client">RAWS</div>
+          <div class="card-name">COLLECTION SPORT</div>
+          <div class="card-meta">VÊTEMENT DE RUNNING</div>
+        </div>
+        <div class="card-arr" aria-hidden="true">
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="card" data-project="3">
+        <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/Bagpack_Kids.png" alt="Oden Campagne Social" loading="lazy">
+        <div class="card-grad"></div>
+        <div class="card-body">
+          <div class="card-client">Optical Center</div>
+          <div class="card-name">COLLABORATION MOJANG</div>
+          <div class="card-meta">LUNETTES MINECRAFT</div>
+        </div>
+        <div class="card-arr" aria-hidden="true">
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="card" data-project="4">
+        <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/oussama/garcon.png" alt="Maison Lumière Nouvelle Collection" loading="lazy">
+        <div class="card-grad"></div>
+        <div class="card-body">
+          <div class="card-client">Oussama Ammar</div>
+          <div class="card-name">VIDÉO VSL</div>
+          <div class="card-meta">STORYTELLING DESSIN ANIMÉ</div>
+        </div>
+        <div class="card-arr" aria-hidden="true">
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5h6M7.5 4.5L5 2M7.5 4.5L5 7" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section fade" id="process">
+  <div class="process-inner">
+    <h2 class="process-h2">NOTRE PROCESS.<br>SIMPLE ET RAPIDE.</h2>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num-row">
+          <div class="step-num">01</div>
+          <span class="step-arr" aria-hidden="true">→</span>
+        </div>
+        <div class="step-title">Brief</div>
+        <p class="step-desc">On comprend vos objectifs, vos références et vos contraintes.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num-row">
+          <div class="step-num">02</div>
+          <span class="step-arr" aria-hidden="true">→</span>
+        </div>
+        <div class="step-title">Création</div>
+        <p class="step-desc">Nos directeurs artistiques proposent plusieurs directions visuelles adaptées à votre univers de marque.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num-row">
+          <div class="step-num">03</div>
+          <span class="step-arr" aria-hidden="true">→</span>
+        </div>
+        <div class="step-title">Sélection</div>
+        <p class="step-desc">Vous choisissez. On affine et prépare tous les formats.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num-row">
+          <div class="step-num">04</div>
+        </div>
+        <div class="step-title">Livraison</div>
+        <p class="step-desc">Vos visuels sont livrés. Prêts à publier, partout, immédiatement.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder-section fade" id="founder">
+  <div class="founder-inner">
+    <div>
+      <div class="founder-avatar">
+        <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/untitled_Topaz%20Image%20Upscale_2026-04-01_14-08-48.png" alt="Allan — Fondateur de Scalepik">
+      </div>
+    </div>
+    <div>
+      <div class="founder-name">Allan</div>
+      <div class="founder-role">Fondateur — Scalepik</div>
+      <p class="founder-bio">
+        Après une formation en cinéma et plusieurs années à produire du contenu vidéo et motion design pour des marques sur les réseaux sociaux, j'ai vu le même problème revenir sans cesse&nbsp;: trop de délais, trop de budget, pas assez de contenu.
+      </p>
+      <p class="founder-bio">
+        Quand j'ai découvert ce que les nouveaux outils de création visuelle permettaient de faire, j'ai su que c'était la solution. J'ai fondé Scalepik pour donner aux marques ce qu'elles n'avaient jamais eu&nbsp;: un volume de contenu illimité, livré vite, sans sacrifier la direction artistique.
+      </p>
+      <div class="founder-tags">
+        <span class="founder-tag">Cinéma &amp; motion design</span>
+        <span class="founder-tag">Direction artistique</span>
+        <span class="founder-tag">Fondateur à 24 ans</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <h2 class="cta-h2">PARLONS DE VOTRE PROJET.</h2>
+  <p class="cta-sub">Décrivez-nous votre besoin et recevez une proposition sous 24h.</p>
+  <a href="https://calendly.com/duzantallan/30min" target="_blank" rel="noopener noreferrer" class="btn-gold">CONTACTEZ-NOUS →</a>
+  <a href="mailto:duzantallan@gmail.com" class="cta-email">duzantallan@gmail.com</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">
+      <img src="https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/logo%20scalepik%20blanc.png" alt="Scalepik" style="height:28px; width:auto; display:block;">
+    </a>
+    <nav aria-label="Footer navigation">
+      <ul class="footer-nav">
+        <li><a href="#founder">À Propos</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#process">Process</a></li>
+      </ul>
+    </nav>
+    <div class="footer-right">
+      <a href="mailto:duzantallan@gmail.com" class="footer-email">DUZANTALLAN@GMAIL.COM</a>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/allan-duzant-692721400" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-label="Galerie projet">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Fermer">×</button>
+    <div class="modal-header">
+      <div class="modal-client" id="modalClient"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-meta" id="modalMeta"></div>
+    </div>
+    <div class="modal-grid" id="modalGrid"></div>
+  </div>
+</div>
+
+<script>
+  // ── HAMBURGER ──
+  const hbg     = document.getElementById('hbg');
+  const mobMenu = document.getElementById('mobMenu');
+  function toggleMenu() {
+    const open = mobMenu.classList.toggle('open');
+    hbg.classList.toggle('open', open);
+    hbg.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  function closeMenu() {
+    mobMenu.classList.remove('open');
+    hbg.classList.remove('open');
+    hbg.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  hbg.addEventListener('click', toggleMenu);
+
+  // ── SCROLL FADE ──
+  const fades = document.querySelectorAll('.fade');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  fades.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight) el.classList.add('in');
+    else io.observe(el);
+  });
+
+  // ── SMOOTH SCROLL ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      const el = id.length > 1 && document.querySelector(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+
+  // ── MODAL GALERIE ──
+  const BASE = 'https://ofmmmlfsjijgwpikqjei.supabase.co/storage/v1/object/public/assets/Projet%20fictif/';
+  const projects = [
+    {
+      client: 'Bodies', title: 'Campagne UGC', meta: 'Photos studio et UGC',
+      photos: [
+        BASE + 'BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-59-24.png',
+        BASE + 'BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-59-30.png',
+        BASE + 'BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-59-27.png',
+        BASE + 'BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-59-20.png',
+        BASE + 'BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-59-11.png',
+        BASE + 'BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-58-48.png',
+        BASE + 'BODIES/UGC/BODIE_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_05-58-42.png',
+      ]
+    },
+    {
+      client: 'Nideco', title: 'Collection Été', meta: 'Formats réseaux sociaux',
+      photos: [
+        BASE + 'NIDECO/NIDECO%20_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-03-36.png',
+        BASE + 'NIDECO/NIDECO%20_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-04-04.png',
+        BASE + 'NIDECO/NIDECO%20_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-03-43.png',
+        BASE + 'NIDECO/NIDECO%20_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-03-31.png',
+        BASE + 'NIDECO/NIDECO%20_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-03-23.png',
+      ]
+    },
+    {
+      client: 'RAWS', title: 'Collection Sport', meta: 'Vêtement de running',
+      photos: [
+        BASE + 'RAWS/photos/raws_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-04-59.png',
+        BASE + 'RAWS/photos/raws_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-04-52.png',
+        BASE + 'RAWS/photos/raws_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-04-48.png',
+        BASE + 'RAWS/photos/raws_Gemini%203%20(Nano%20Banana%20Pro)_2026-04-14_06-04-43.png',
+      ]
+    },
+    {
+      client: 'Optical Center', title: 'Collaboration Mojang', meta: 'Lunettes Minecraft',
+      photos: [
+        BASE + 'minecraft/Bagpack_Kids.png',
+        BASE + 'minecraft/Child_Drawing_Kids.png',
+        BASE + 'minecraft/zegezgefsd.png',
+        BASE + 'minecraft/Gaming_Desktop_Adults_1.png',
+        BASE + 'minecraft/Gaming_Desktop_Adults_2.png',
+        BASE + 'minecraft/School_Desktop_Kids_2.png',
+      ]
+    },
+    {
+      client: 'Oussama Ammar', title: 'Vidéo VSL', meta: 'Storytelling dessin animé',
+      photos: [
+        BASE + 'oussama/garcon.png',
+        BASE + 'oussama/AZ.png',
+        BASE + 'oussama/AZE.png',
+        BASE + 'oussama/AZER.png',
+        BASE + 'oussama/AZERT.png',
+        BASE + 'oussama/AZERTY.png',
+      ]
+    },
+  ];
+
+  const modal      = document.getElementById('modal');
+  const modalClose = document.getElementById('modalClose');
+  const modalGrid  = document.getElementById('modalGrid');
+
+  function openModal(idx) {
+    const p = projects[idx];
+    document.getElementById('modalClient').textContent = p.client;
+    document.getElementById('modalTitle').textContent  = p.title;
+    document.getElementById('modalMeta').textContent   = p.meta;
+    modalGrid.innerHTML = p.photos.map(src =>
+      `<img src="${src}" alt="${p.client} — ${p.title}" loading="lazy">`
+    ).join('');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.card[data-project]').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => openModal(+card.dataset.project));
+  });
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
